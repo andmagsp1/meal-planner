@@ -3,11 +3,13 @@
 ## Run the Todo App
 
 1. **Install dependencies** (if not already done):
+
    ```bash
    npm install
    ```
 
 2. **Start both client and server**:
+
    ```bash
    npm run dev:all
    ```
@@ -18,15 +20,15 @@
 
 ## Available Commands
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start Vite dev server only |
-| `npm run dev:server` | Start Express server only |
-| `npm run dev:all` | Start both client and server |
-| `npm test` | Run Vitest tests |
-| `npm test:ui` | Run tests with UI |
-| `npm run build` | Build frontend for production |
-| `npm run build:server` | Build server for production |
+| Command                | Description                   |
+| ---------------------- | ----------------------------- |
+| `npm run dev`          | Start Vite dev server only    |
+| `npm run dev:server`   | Start Express server only     |
+| `npm run dev:all`      | Start both client and server  |
+| `npm test`             | Run Vitest tests              |
+| `npm test:ui`          | Run tests with UI             |
+| `npm run build`        | Build frontend for production |
+| `npm run build:server` | Build server for production   |
 
 ## What's Included
 
@@ -43,4 +45,3 @@
 - Add data persistence (database)
 - Add user authentication
 - Deploy to production
-
