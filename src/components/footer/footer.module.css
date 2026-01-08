@@ -1,0 +1,14 @@
+.footer {
+  background: #002776;
+  color: #ffffff;
+  padding: 2rem 3rem;
+  text-align: center;
+  margin-top: auto;
+  min-height: 10rem;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.text {
+  margin: 0;
+  font-size: 1.1rem;
+}
