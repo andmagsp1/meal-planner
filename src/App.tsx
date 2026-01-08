@@ -1,6 +1,6 @@
 import "./App.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Todos } from "./features/Todos.tsx";
+import { Recipes } from "./features/Recipes.tsx";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Todos />
+      <Recipes />
     </QueryClientProvider>
   );
 }

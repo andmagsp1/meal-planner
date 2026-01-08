@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import { recipes, weeklyPlans, shoppingLists } from "./data.js";
+import type { PlannedMeal, ShoppingItem } from "./types.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -7,63 +9,174 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Sample todos data
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+// ============================================
+// RECIPES ENDPOINTS
+// ============================================
 
-const todos: Todo[] = [
-  { id: 1, title: "Learn React", completed: true },
-  { id: 2, title: "Learn Express", completed: false },
-  { id: 3, title: "Build a Todo App", completed: false },
-];
-
-// Get all todos
-app.get("/api/todos", (req, res) => {
-  res.json(todos);
+// Get all recipes
+app.get("/api/recipes", (req, res) => {
+  res.json(recipes);
 });
 
-// Get a single todo
-app.get("/api/todos/:id", (req, res) => {
-  const todo = todos.find(t => t.id === parseInt(req.params.id));
-  if (!todo) {
-    return res.status(404).json({ message: "Todo not found" });
+// Get a single recipe
+app.get("/api/recipes/:id", (req, res) => {
+  const recipe = recipes.find(r => r.id === req.params.id);
+  if (!recipe) {
+    return res.status(404).json({ message: "Recipe not found" });
   }
-  res.json(todo);
+  res.json(recipe);
 });
 
-// Create a new todo
-app.post("/api/todos", (req, res) => {
-  const newTodo: Todo = {
-    id: todos.length > 0 ? Math.max(...todos.map(t => t.id)) + 1 : 1,
-    title: req.body.title,
-    completed: false,
+// ============================================
+// WEEKLY PLAN ENDPOINTS
+// ============================================
+
+// Get all weekly plans
+app.get("/api/weekly-plans", (req, res) => {
+  res.json(weeklyPlans);
+});
+
+// Get a single weekly plan
+app.get("/api/weekly-plans/:id", (req, res) => {
+  const plan = weeklyPlans.find(p => p.id === req.params.id);
+  if (!plan) {
+    return res.status(404).json({ message: "Weekly plan not found" });
+  }
+  res.json(plan);
+});
+
+// Add a meal to weekly plan
+app.post("/api/weekly-plans/:id/meals", (req, res) => {
+  const plan = weeklyPlans.find(p => p.id === req.params.id);
+  if (!plan) {
+    return res.status(404).json({ message: "Weekly plan not found" });
+  }
+
+  const newMeal: PlannedMeal = {
+    id: `meal-${Date.now()}`,
+    recipeId: req.body.recipeId,
   };
-  todos.push(newTodo);
-  res.status(201).json(newTodo);
+
+  plan.meals.push(newMeal);
+  res.status(201).json(newMeal);
 });
 
-// Update a todo
-app.put("/api/todos/:id", (req, res) => {
-  const todo = todos.find(t => t.id === parseInt(req.params.id));
-  if (!todo) {
-    return res.status(404).json({ message: "Todo not found" });
+// Update a meal in weekly plan
+app.put("/api/weekly-plans/:planId/meals/:mealId", (req, res) => {
+  const plan = weeklyPlans.find(p => p.id === req.params.planId);
+  if (!plan) {
+    return res.status(404).json({ message: "Weekly plan not found" });
   }
-  todo.title = req.body.title ?? todo.title;
-  todo.completed = req.body.completed ?? todo.completed;
-  res.json(todo);
+
+  const meal = plan.meals.find(m => m.id === req.params.mealId);
+  if (!meal) {
+    return res.status(404).json({ message: "Meal not found" });
+  }
+
+  meal.recipeId = req.body.recipeId ?? meal.recipeId;
+
+  res.json(meal);
 });
 
-// Delete a todo
-app.delete("/api/todos/:id", (req, res) => {
-  const index = todos.findIndex(t => t.id === parseInt(req.params.id));
+// Delete a meal from weekly plan
+app.delete("/api/weekly-plans/:planId/meals/:mealId", (req, res) => {
+  const plan = weeklyPlans.find(p => p.id === req.params.planId);
+  if (!plan) {
+    return res.status(404).json({ message: "Weekly plan not found" });
+  }
+
+  const index = plan.meals.findIndex(m => m.id === req.params.mealId);
   if (index === -1) {
-    return res.status(404).json({ message: "Todo not found" });
+    return res.status(404).json({ message: "Meal not found" });
   }
-  todos.splice(index, 1);
+
+  plan.meals.splice(index, 1);
   res.status(204).send();
+});
+
+// ============================================
+// SHOPPING LIST ENDPOINTS
+// ============================================
+
+// Get shopping list for a weekly plan
+app.get("/api/shopping-lists/:weeklyPlanId", (req, res) => {
+  const list = shoppingLists.find(l => l.weeklyPlanId === req.params.weeklyPlanId);
+  if (!list) {
+    return res.status(404).json({ message: "Shopping list not found" });
+  }
+  res.json(list);
+});
+
+// Generate shopping list from weekly plan
+app.post("/api/shopping-lists/generate/:weeklyPlanId", (req, res) => {
+  const plan = weeklyPlans.find(p => p.id === req.params.weeklyPlanId);
+  if (!plan) {
+    return res.status(404).json({ message: "Weekly plan not found" });
+  }
+
+  // Find or create shopping list
+  let list = shoppingLists.find(l => l.weeklyPlanId === req.params.weeklyPlanId);
+  if (!list) {
+    list = {
+      id: `list-${Date.now()}`,
+      weeklyPlanId: req.params.weeklyPlanId,
+      items: [],
+    };
+    shoppingLists.push(list);
+  }
+
+  // Clear existing items
+  list.items = [];
+
+  // Aggregate ingredients from all meals
+  const ingredientMap = new Map<string, { amounts: string[]; recipeNames: string[] }>();
+
+  plan.meals.forEach(meal => {
+    const recipe = recipes.find(r => r.id === meal.recipeId);
+    if (recipe) {
+      recipe.ingredients.forEach(ingredient => {
+        const key = ingredient.name.toLowerCase();
+        if (!ingredientMap.has(key)) {
+          ingredientMap.set(key, { amounts: [], recipeNames: [] });
+        }
+        const entry = ingredientMap.get(key)!;
+        entry.amounts.push(ingredient.amount);
+        if (!entry.recipeNames.includes(recipe.name)) {
+          entry.recipeNames.push(recipe.name);
+        }
+      });
+    }
+  });
+
+  // Create shopping items
+  ingredientMap.forEach((value, key) => {
+    const item: ShoppingItem = {
+      id: `item-${Date.now()}-${Math.random()}`,
+      ingredientName: key,
+      amount: value.amounts.join(", "),
+      checked: false,
+      recipeNames: value.recipeNames,
+    };
+    list!.items.push(item);
+  });
+
+  res.json(list);
+});
+
+// Toggle shopping item checked status
+app.patch("/api/shopping-lists/:listId/items/:itemId", (req, res) => {
+  const list = shoppingLists.find(l => l.id === req.params.listId);
+  if (!list) {
+    return res.status(404).json({ message: "Shopping list not found" });
+  }
+
+  const item = list.items.find(i => i.id === req.params.itemId);
+  if (!item) {
+    return res.status(404).json({ message: "Shopping item not found" });
+  }
+
+  item.checked = req.body.checked ?? !item.checked;
+  res.json(item);
 });
 
 app.listen(PORT, () => {
