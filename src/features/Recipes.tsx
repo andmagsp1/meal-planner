@@ -14,7 +14,7 @@ export function Recipes() {
   return (
     <div>
       <ul>
-        {data?.map(recipe => (
+        {data?.map((recipe) => (
           <li key={recipe.id}>{recipe.name}</li>
         ))}
       </ul>

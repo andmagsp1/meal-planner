@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/recipe/$recipeId')({
+export const Route = createFileRoute("/recipe/$recipeId")({
   component: RecipePage,
 });
 
@@ -11,4 +11,3 @@ function RecipePage() {
     </div>
   );
 }
-

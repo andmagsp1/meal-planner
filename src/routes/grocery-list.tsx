@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/grocery-list')({
+export const Route = createFileRoute("/grocery-list")({
   component: GroceryListPage,
 });
 
@@ -11,4 +11,3 @@ function GroceryListPage() {
     </div>
   );
 }
-

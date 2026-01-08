@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 describe("Basic Math Tests", () => {
   it("should add two numbers correctly", () => {
