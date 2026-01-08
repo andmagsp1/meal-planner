@@ -11,22 +11,11 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-          width: "100%",
-        }}
-      >
-        <Header />
-
-        <main style={{ flex: 1, padding: "2rem" }}>
-          <RouterProvider router={router} />
-        </main>
-
-        <Footer />
-      </div>
+      <Header />
+      <main style={{ flex: 1, padding: "2rem" }}>
+        <RouterProvider router={router} />
+      </main>
+      <Footer />
     </QueryClientProvider>
   );
 }
