@@ -1,7 +1,3 @@
-node_modules
-dist
-build
-*.gen.ts
-*.gen.tsx
-routeTree.gen.ts
+# Ignore TypeScript config file - uses JSONC format with comments
+tsconfig.json
 
