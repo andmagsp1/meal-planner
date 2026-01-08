@@ -6,17 +6,17 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint --write .",
+    "lint": "npx @biomejs/biome lint .",
+    "lint:fix": "npx @biomejs/biome lint --write .",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
+    "test": "npx vitest",
+    "test:ui": "npx vitest --ui",
     "server": "tsx server/index.ts",
     "server:dev": "tsx watch server/index.ts",
-    "format": "biome format --write .",
-    "format:check": "biome format .",
-    "check": "biome check .",
-    "check:fix": "biome check --write ."
+    "format": "npx @biomejs/biome format --write .",
+    "format:check": "npx @biomejs/biome format .",
+    "check": "npx @biomejs/biome check .",
+    "check:fix": "npx @biomejs/biome check --write ."
   },
   "dependencies": {
     "@sb1/ffe-buttons": "^100.4.1",
