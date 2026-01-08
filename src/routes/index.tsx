@@ -6,10 +6,5 @@ export const Route = createFileRoute("/")({
 });
 
 function RecipesPage() {
-  return (
-    <div>
-      <h1>Recipes</h1>
-      <Recipes />
-    </div>
-  );
+  return <Recipes />;
 }

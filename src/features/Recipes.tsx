@@ -13,6 +13,7 @@ export function Recipes() {
 
   return (
     <div>
+      <h2>Meals</h2>
       <ul>
         {data?.map((recipe) => (
           <li key={recipe.id}>{recipe.name}</li>
