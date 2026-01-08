@@ -1,4 +1,4 @@
-import type { Recipe, WeeklyPlan, ShoppingList } from "./types.js";
+import type { Recipe, ShoppingList, WeeklyPlan } from "./types.js";
 
 export const recipes: Recipe[] = [
   {
@@ -22,11 +22,16 @@ export const recipes: Recipe[] = [
   {
     id: "2",
     name: "Kyllingtomatgryte med poteter",
-    imageUrl: "https://gfx.nrk.no/uPOAYA1j48vqP0Ua-rsGUgY4l_-fcwhK_VxGegNd0MjQ.jpg",
+    imageUrl:
+      "https://gfx.nrk.no/uPOAYA1j48vqP0Ua-rsGUgY4l_-fcwhK_VxGegNd0MjQ.jpg",
     ingredients: [
       { id: "2-1", name: "olje", amount: "2 ss" },
       { id: "2-2", name: "rødløk, hakket", amount: "1 stk" },
-      { id: "2-3", name: "kyllingfileter, skåret i terninger", amount: "3-4 stk" },
+      {
+        id: "2-3",
+        name: "kyllingfileter, skåret i terninger",
+        amount: "3-4 stk",
+      },
       { id: "2-4", name: "sammalt hvetemel", amount: "1 ss" },
       { id: "2-5", name: "hakkede tomater", amount: "3 bokser" },
       { id: "2-6", name: "poteter, skrelt og delt i 4", amount: "4-6 stk" },
@@ -42,7 +47,8 @@ export const recipes: Recipe[] = [
   {
     id: "3",
     name: "Fiskegrateng med potet",
-    imageUrl: "https://gfx.nrk.no/oM9peiOYFx27-2LM6TDXKAvheZ7fP_Oo6hlQVcqKar1w.jpg",
+    imageUrl:
+      "https://gfx.nrk.no/oM9peiOYFx27-2LM6TDXKAvheZ7fP_Oo6hlQVcqKar1w.jpg",
     ingredients: [
       { id: "3-1", name: "mandel-poteter", amount: "600 g" },
       { id: "3-2", name: "hvitløk", amount: "2 fedd" },
@@ -59,7 +65,8 @@ export const recipes: Recipe[] = [
   {
     id: "4",
     name: "Kyllinggryte med asiatiske smaker",
-    imageUrl: "https://gfx.nrk.no/ZusUD8HykJ-p__FrSfmHvA3EzKhMoJLo5qRxnqw8_rRw.jpg",
+    imageUrl:
+      "https://gfx.nrk.no/ZusUD8HykJ-p__FrSfmHvA3EzKhMoJLo5qRxnqw8_rRw.jpg",
     ingredients: [
       { id: "4-1", name: "kyllingfilet", amount: "600 g" },
       { id: "4-2", name: "gulrøtter", amount: "2 stk" },
@@ -85,7 +92,8 @@ export const recipes: Recipe[] = [
   {
     id: "5",
     name: "Koreansk sesamkylling",
-    imageUrl: "https://gfx.nrk.no/UIqHfpyMEhWGyMx3WaxnrAPnxvecwrIy4IRN-urseCqg.jpg",
+    imageUrl:
+      "https://gfx.nrk.no/UIqHfpyMEhWGyMx3WaxnrAPnxvecwrIy4IRN-urseCqg.jpg",
     ingredients: [
       { id: "5-1", name: "kylling bryst", amount: "750 g" },
       { id: "5-2", name: "hvetemel", amount: "100 g" },

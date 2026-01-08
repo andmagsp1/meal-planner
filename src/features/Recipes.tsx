@@ -13,9 +13,8 @@ export function Recipes() {
 
   return (
     <div>
-      <h1>Recipes</h1>
       <ul>
-        {data?.map(recipe => (
+        {data?.map((recipe) => (
           <li key={recipe.id}>{recipe.name}</li>
         ))}
       </ul>
