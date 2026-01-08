@@ -32,11 +32,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify installation
+        run: |
+          echo "Checking node_modules/.bin/biome:"
+          ls -la node_modules/.bin/biome || echo "biome symlink not found"
+          echo "Checking @biomejs/biome package:"
+          ls -la node_modules/@biomejs/biome/bin/biome || echo "biome binary not found"
+
       - name: Run Biome check
         run: npm run check
 
       - name: Run tests
-        run: npm test --if-present
+        run: npm run test -- --run
 
       - name: Build project
         run: npm run build --if-present

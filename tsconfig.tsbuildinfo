@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/example.test.ts","./src/main.tsx","./src/routetree.gen.ts","./src/router.tsx","./src/features/recipes.tsx","./src/features/hooks/userecipes.ts","./src/features/network/getrecipes.ts","./src/routes/__root.tsx","./src/routes/grocery-list.tsx","./src/routes/index.tsx","./src/routes/recipe.$recipeid.tsx","./vite.config.ts"],"version":"5.9.3"}
