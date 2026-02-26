@@ -26,25 +26,43 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
     <div style={{ maxWidth: "800px", margin: "0 auto" }}>
       <Heading2>{data.name}</Heading2>
 
-      <img
-        src={data.imageUrl}
-        alt={data.name}
-        style={{ width: "100%", borderRadius: "8px", marginBottom: "16px" }}
-      />
+      <div
+        style={{
+          display: "flex",
+          gap: "16px",
+          marginBottom: "32px",
+          marginTop: "32px",
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <Heading3>Ingredients</Heading3>
+          <ul>
+            {data.ingredients.map((ingredient) => (
+              <li key={ingredient.id}>
+                {ingredient.amount} {ingredient.name}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      <CardBase style={{ background: "#eaeaf6", marginBottom: "16px" }}>
-        <Heading3>Ingredients</Heading3>
-        <ul>
-          {data.ingredients.map((ingredient) => (
-            <li key={ingredient.id}>
-              {ingredient.amount} {ingredient.name}
-            </li>
-          ))}
-        </ul>
-      </CardBase>
+        <img
+          src={data.imageUrl}
+          alt={data.name}
+          style={{ width: "60%", borderRadius: "8px", objectFit: "cover" }}
+        />
+      </div>
 
       <Heading3>Steps</Heading3>
-      <Paragraph>{data.description}</Paragraph>
+      <ol>
+        {data.description
+          .split(/\d+\.\s*/)
+          .filter((step) => step.trim() !== "")
+          .map((step, index) => (
+            <li key={index + step}>
+              <Paragraph>{step.trim()}</Paragraph>
+            </li>
+          ))}
+      </ol>
     </div>
   );
 }
