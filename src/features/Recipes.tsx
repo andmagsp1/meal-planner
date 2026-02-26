@@ -55,8 +55,16 @@ export function Recipes() {
             params={{ recipeId: recipe.id }}
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <CardBase style={{ background: "#eaeaf6", width: "100%" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <CardBase
+              style={{
+                background: "#eaeaf6",
+                width: "100%",
+                border: isInPlan(recipe.id) ? "2px solid #073f83" : undefined,
+              }}
+            >
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "16px" }}
+              >
                 <div style={{ flex: 1 }}>
                   <Heading3 lookLike={4}>{recipe.name}</Heading3>
                   <Paragraph>
