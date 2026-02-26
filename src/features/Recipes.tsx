@@ -1,6 +1,7 @@
-import { CardBase, TextCard } from "@sb1/ffe-cards-react";
+import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading3, Paragraph } from "@sb1/ffe-core-react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { getRecipes } from "../api/getRecipes.ts";
 
 export function Recipes() {
@@ -22,14 +23,21 @@ export function Recipes() {
       <h2>Meals</h2>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
         {data?.map((recipe) => (
-          <CardBase key={recipe.id} style={{ background: "#eaeaf6" }}>
-            <Heading3>{recipe.name}</Heading3>
-            <Paragraph>
-              {recipe.description.length > 50
-                ? recipe.description.slice(0, 100) + "..."
-                : recipe.description}
-            </Paragraph>
-          </CardBase>
+          <Link
+            key={recipe.id}
+            to="/recipe/$recipeId"
+            params={{ recipeId: recipe.id }}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <CardBase style={{ background: "#eaeaf6" }}>
+              <Heading3>{recipe.name}</Heading3>
+              <Paragraph>
+                {recipe.description.length > 50
+                  ? recipe.description.slice(0, 100) + "..."
+                  : recipe.description}
+              </Paragraph>
+            </CardBase>
+          </Link>
         ))}
       </div>
     </div>
