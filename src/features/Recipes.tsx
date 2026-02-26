@@ -1,19 +1,69 @@
 import { TertiaryButton } from "@sb1/ffe-buttons-react";
 import { CardBase } from "@sb1/ffe-cards-react";
-import { Heading1, Heading3, Heading4, Paragraph } from "@sb1/ffe-core-react";
+import { Heading1, Heading2, Paragraph } from "@sb1/ffe-core-react";
 import { Checkbox, Input, InputGroup } from "@sb1/ffe-form-react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { getRecipes } from "../api/getRecipes.ts";
-import { useWeeklyPlan } from "../hooks/useWeeklyPlan.ts";
+import {
+  addMealToPlan,
+  clearAllMeals,
+  getWeeklyPlan,
+  removeMealFromPlan,
+} from "../api/weeklyPlan.ts";
 import { useLanguage, useTranslation } from "../i18n/LanguageContext.tsx";
+
+const PLAN_ID = "1";
 
 export function Recipes() {
   const { lang } = useLanguage();
   const { t } = useTranslation();
-  const { plan, isInPlan, toggleMeal, clearPlan } = useWeeklyPlan();
   const [search, setSearch] = useState("");
+
+  const queryClient = useQueryClient();
+
+  const { data: plan } = useQuery({
+    queryKey: ["weeklyPlan"],
+    queryFn: () => getWeeklyPlan(PLAN_ID),
+  });
+
+  const addMeal = useMutation({
+    mutationFn: (recipeId: string) => addMealToPlan(PLAN_ID, recipeId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+  });
+
+  const removeMeal = useMutation({
+    mutationFn: (mealId: string) => removeMealFromPlan(PLAN_ID, mealId),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+  });
+
+  const clearPlanMutation = useMutation({
+    mutationFn: () => clearAllMeals(PLAN_ID),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+  });
+
+  const isInPlan = (recipeId: string): boolean =>
+    plan?.meals.some((meal) => meal.recipeId === recipeId) ?? false;
+
+  const getMealId = (recipeId: string): string | undefined =>
+    plan?.meals.find((meal) => meal.recipeId === recipeId)?.id;
+
+  const toggleMeal = (recipeId: string) => {
+    if (isInPlan(recipeId)) {
+      const mealId = getMealId(recipeId);
+      if (mealId) {
+        removeMeal.mutate(mealId);
+      }
+    } else {
+      addMeal.mutate(recipeId);
+    }
+  };
+
+  const clearPlan = () => clearPlanMutation.mutate();
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ["recipes", lang],
@@ -82,7 +132,7 @@ export function Recipes() {
                     color: "inherit",
                   }}
                 >
-                  <Heading3 lookLike={4}>{recipe.name}</Heading3>
+                  <Heading2 lookLike={4}>{recipe.name}</Heading2>
                   <Paragraph>
                     {recipe.description.length > 50
                       ? recipe.description.slice(0, 100) + "..."
@@ -116,7 +166,9 @@ export function Recipes() {
               alignItems: "center",
             }}
           >
-            <Heading4 style={{ marginBottom: 0 }}>{t("weeklyPlan")}</Heading4>
+            <Heading2 lookLike={4} style={{ marginBottom: 0 }}>
+              {t("weeklyPlan")}
+            </Heading2>
             {plannedRecipes && plannedRecipes.length > 0 && (
               <TertiaryButton
                 onClick={clearPlan}
