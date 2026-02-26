@@ -109,7 +109,7 @@ export function Recipes() {
           {!plannedRecipes || plannedRecipes.length === 0 ? (
             <Paragraph>{t("noMealsInPlan")}</Paragraph>
           ) : (
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            <ul style={{ padding: "8px", margin: 0 }}>
               {plannedRecipes.map((recipe) => (
                 <li key={recipe.id} style={{ padding: "4px 0" }}>
                   <Link to="/recipe/$recipeId" params={{ recipeId: recipe.id }}>
