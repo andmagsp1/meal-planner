@@ -10,6 +10,7 @@ export interface Recipe {
   imageUrl: string;
   ingredients: Ingredient[];
   description: string;
+  steps: string;
 }
 
 export interface PlannedMeal {

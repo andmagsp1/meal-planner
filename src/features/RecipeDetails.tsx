@@ -38,6 +38,7 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
         </BackButton>
       </div>
       <Heading2>{data.name}</Heading2>
+      <Paragraph>{data.description}</Paragraph>
 
       <div
         style={{
@@ -67,7 +68,7 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
 
       <Heading3>Steps</Heading3>
       <ol>
-        {data.description
+        {data.steps
           .split(/\d+\.\s*/)
           .filter((step) => step.trim() !== "")
           .map((step, index) => (
