@@ -1,13 +1,16 @@
 import { BackButton } from "@sb1/ffe-buttons-react";
 import { Heading2, Heading3, Paragraph } from "@sb1/ffe-core-react";
+import { Checkbox } from "@sb1/ffe-form-react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import type { Recipe } from "../../server/types.ts";
+import { useWeeklyPlan } from "../hooks/useWeeklyPlan.ts";
 import { useLanguage, useTranslation } from "../i18n/LanguageContext.tsx";
 
 export function RecipeDetails({ recipeId }: { recipeId: string }) {
   const { lang } = useLanguage();
   const { t } = useTranslation();
+  const { isInPlan, toggleMeal } = useWeeklyPlan();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["recipe", recipeId, lang],
@@ -43,6 +46,14 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
       </div>
       <Heading2>{data.name}</Heading2>
       <Paragraph>{data.description}</Paragraph>
+      <div style={{ marginTop: "16px" }}>
+        <Checkbox
+          checked={isInPlan(recipeId)}
+          onChange={() => toggleMeal(recipeId)}
+        >
+          {t("addToWeeklyPlan")}
+        </Checkbox>
+      </div>
 
       <div
         style={{

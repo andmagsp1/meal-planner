@@ -19,4 +19,5 @@ export const translations: TranslationMap = {
   copyright: { no: "© 2026 Meal Planner", en: "© 2026 Meal Planner" },
   searchRecipes: { no: "Søk etter oppskrifter", en: "Search recipes" },
   noResults: { no: "Ingen oppskrifter funnet.", en: "No recipes found." },
+  addToWeeklyPlan: { no: "Legg til i ukesplan", en: "Add to weekly plan" },
 };
