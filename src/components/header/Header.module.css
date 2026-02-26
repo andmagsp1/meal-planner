@@ -14,17 +14,3 @@
   font-weight: 600;
 }
 
-.langToggle {
-  background: #333;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.langToggle:hover {
-  background: #555;
-}
