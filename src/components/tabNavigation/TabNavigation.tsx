@@ -12,9 +12,9 @@ export function TabNavigation() {
         <Tab
           selected={!isGroceryList}
           onClick={handleMealsClick}
-          aria-controls="meals"
+          aria-controls="recipes"
         >
-          Meals
+          Recipes
         </Tab>
         <Tab
           selected={isGroceryList}

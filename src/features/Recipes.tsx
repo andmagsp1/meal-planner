@@ -1,5 +1,5 @@
 import { CardBase } from "@sb1/ffe-cards-react";
-import { Heading3, Paragraph } from "@sb1/ffe-core-react";
+import { Heading1, Heading3, Paragraph } from "@sb1/ffe-core-react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { getRecipes } from "../api/getRecipes.ts";
@@ -20,8 +20,15 @@ export function Recipes() {
 
   return (
     <div>
-      <h2>Meals</h2>
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxWidth: "800px" }}>
+      <Heading1 lookLike={2}>Recipes</Heading1>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
+          maxWidth: "800px",
+        }}
+      >
         {data?.map((recipe) => (
           <Link
             key={recipe.id}
