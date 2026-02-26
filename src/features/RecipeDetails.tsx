@@ -1,5 +1,5 @@
 import { BackButton } from "@sb1/ffe-buttons-react";
-import { Heading2, Heading3, Paragraph } from "@sb1/ffe-core-react";
+import { Heading1, Heading2, Paragraph } from "@sb1/ffe-core-react";
 import { Checkbox } from "@sb1/ffe-form-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -77,15 +77,15 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
         position: "relative",
         maxWidth: "800px",
         margin: "0 auto",
-        marginTop: "40px",
+        marginTop: "50px",
       }}
     >
-      <div style={{ position: "absolute", left: "-120px", top: "-40px" }}>
+      <div style={{ position: "absolute", left: "-120px", top: "-60px" }}>
         <BackButton as={Link} to="/">
           {t("back")}
         </BackButton>
       </div>
-      <Heading2>{data.name}</Heading2>
+      <Heading1 lookLike={2}>{data.name}</Heading1>
       <Paragraph>{data.description}</Paragraph>
       <div style={{ marginTop: "16px" }}>
         <Checkbox
@@ -105,7 +105,7 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
         }}
       >
         <div style={{ flex: 1 }}>
-          <Heading3>{t("ingredients")}</Heading3>
+          <Heading2 lookLike={3}>{t("ingredients")}</Heading2>
           <ul>
             {data.ingredients.map((ingredient) => (
               <li key={ingredient.id}>
@@ -122,7 +122,7 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
         />
       </div>
 
-      <Heading3>{t("steps")}</Heading3>
+      <Heading2 lookLike={3}>{t("steps")}</Heading2>
       <ol>
         {data.steps
           .split(/\d+\.\s*/)
