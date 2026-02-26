@@ -1,7 +1,11 @@
-import { useRecipes } from "./hooks/useRecipes.ts";
+import { useQuery } from "@tanstack/react-query";
+import { getRecipes } from "../api/getRecipes.ts";
 
 export function Recipes() {
-  const { data, isError, isLoading } = useRecipes();
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["recipes"],
+    queryFn: getRecipes,
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
