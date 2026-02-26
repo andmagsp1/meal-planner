@@ -1,6 +1,8 @@
+import { BackButton } from "@sb1/ffe-buttons-react";
 import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading2, Heading3, Paragraph } from "@sb1/ffe-core-react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import type { Recipe } from "../../server/types.ts";
 
 export function RecipeDetails({ recipeId }: { recipeId: string }) {
@@ -23,7 +25,19 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
   }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+    <div
+      style={{
+        position: "relative",
+        maxWidth: "800px",
+        margin: "0 auto",
+        marginTop: "40px",
+      }}
+    >
+      <div style={{ position: "absolute", left: "-120px", top: "-40px" }}>
+        <BackButton as={Link} to="/">
+          Back
+        </BackButton>
+      </div>
       <Heading2>{data.name}</Heading2>
 
       <div

@@ -2,6 +2,7 @@
 @import "@sb1/ffe-tabs/css/tabs.css";
 @import "@sb1/ffe-cards/css/cards.css";
 @import "@sb1/ffe-icons/css/ffe-icons.css";
+@import "@sb1/ffe-buttons/css/buttons.css";
 
 @keyframes logo-spin {
   from {

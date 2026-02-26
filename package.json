@@ -14,8 +14,8 @@
     "server:dev": "tsx watch server/index.ts"
   },
   "dependencies": {
-    "@sb1/ffe-buttons": "^100.4.1",
-    "@sb1/ffe-buttons-react": "^100.4.1",
+    "@sb1/ffe-buttons": "^100.10.1",
+    "@sb1/ffe-buttons-react": "^100.10.1",
     "@sb1/ffe-cards": "^100.10.1",
     "@sb1/ffe-cards-react": "^100.10.1",
     "@sb1/ffe-core": "^100.10.1",

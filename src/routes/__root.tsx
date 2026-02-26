@@ -1,4 +1,4 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Outlet, useMatch } from "@tanstack/react-router";
 import { TabNavigation } from "../components/tabNavigation/TabNavigation.tsx";
 
 export const Route = createRootRoute({
@@ -6,9 +6,14 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
+  const isRecipeDetail = useMatch({
+    from: "/recipe/$recipeId",
+    shouldThrow: false,
+  });
+
   return (
     <>
-      <TabNavigation />
+      {!isRecipeDetail && <TabNavigation />}
       <Outlet />
     </>
   );
