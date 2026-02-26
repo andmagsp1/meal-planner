@@ -20,4 +20,9 @@ export const translations: TranslationMap = {
   searchRecipes: { no: "Søk etter oppskrifter", en: "Search recipes" },
   noResults: { no: "Ingen oppskrifter funnet.", en: "No recipes found." },
   addToWeeklyPlan: { no: "Legg til i ukesplan", en: "Add to weekly plan" },
+  weeklyPlan: { no: "Ukesplan", en: "Weekly plan" },
+  noMealsInPlan: {
+    no: "Ingen måltider lagt til ennå.",
+    en: "No meals added yet.",
+  },
 };

@@ -42,5 +42,5 @@ export function useWeeklyPlan() {
     }
   };
 
-  return { isInPlan, toggleMeal };
+  return { plan, isInPlan, toggleMeal };
 }
