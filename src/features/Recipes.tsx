@@ -39,7 +39,7 @@ export function Recipes() {
     .filter(Boolean) as { id: string; name: string }[] | undefined;
 
   return (
-    <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
+    <div style={{ display: "flex", gap: "64px", alignItems: "flex-start" }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <Heading1 lookLike={2}>{t("recipes")}</Heading1>
         <div style={{ maxWidth: "800px", marginBottom: "16px" }}>
@@ -57,54 +57,57 @@ export function Recipes() {
         >
           {filtered?.length === 0 && <Paragraph>{t("noResults")}</Paragraph>}
           {filtered?.map((recipe) => (
-            <Link
+            <CardBase
               key={recipe.id}
-              to="/recipe/$recipeId"
-              params={{ recipeId: recipe.id }}
-              style={{ textDecoration: "none", color: "inherit" }}
+              style={{
+                background: "#eaeaf6",
+                width: "100%",
+                border: isInPlan(recipe.id) ? "2px solid #073f83" : undefined,
+              }}
             >
-              <CardBase
+              <div
                 style={{
-                  background: "#eaeaf6",
-                  width: "100%",
-                  border: isInPlan(recipe.id) ? "2px solid #073f83" : undefined,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "16px",
                 }}
               >
-                <div
+                <Link
+                  to="/recipe/$recipeId"
+                  params={{ recipeId: recipe.id }}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
+                    flex: 1,
+                    textDecoration: "none",
+                    color: "inherit",
                   }}
                 >
-                  <div style={{ flex: 1 }}>
-                    <Heading3 lookLike={4}>{recipe.name}</Heading3>
-                    <Paragraph>
-                      {recipe.description.length > 50
-                        ? recipe.description.slice(0, 100) + "..."
-                        : recipe.description}
-                    </Paragraph>
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Checkbox
-                      checked={isInPlan(recipe.id)}
-                      onChange={() => toggleMeal(recipe.id)}
-                    >
-                      {t("addToWeeklyPlan")}
-                    </Checkbox>
-                  </div>
-                </div>
-              </CardBase>
-            </Link>
+                  <Heading3 lookLike={4}>{recipe.name}</Heading3>
+                  <Paragraph>
+                    {recipe.description.length > 50
+                      ? recipe.description.slice(0, 100) + "..."
+                      : recipe.description}
+                  </Paragraph>
+                </Link>
+                <Checkbox
+                  checked={isInPlan(recipe.id)}
+                  onChange={() => toggleMeal(recipe.id)}
+                >
+                  {t("addToWeeklyPlan")}
+                </Checkbox>
+              </div>
+            </CardBase>
           ))}
         </div>
       </div>
-      <div style={{ width: 280, flexShrink: 0, position: "sticky", top: 16 }}>
-        <CardBase style={{ background: "#e5f0f5" }}>
+      <div
+        style={{
+          width: 280,
+          flexShrink: 0,
+          position: "sticky",
+          top: 16,
+        }}
+      >
+        <CardBase style={{ background: "#e5f0f5", minHeight: "200px" }}>
           <Heading4>{t("weeklyPlan")}</Heading4>
           {!plannedRecipes || plannedRecipes.length === 0 ? (
             <Paragraph>{t("noMealsInPlan")}</Paragraph>
