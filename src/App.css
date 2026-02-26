@@ -1,5 +1,10 @@
 @import "@sb1/ffe-core/css/ffe.css";
 @import "@sb1/ffe-tabs/css/tabs.css";
+@import "@sb1/ffe-cards/css/cards.css";
+@import "@sb1/ffe-icons/css/ffe-icons.css";
+@import "@sb1/ffe-buttons/css/buttons.css";
+@import "@sb1/ffe-collapse-react/css/collapse.css";
+@import "@sb1/ffe-form/css/form.css";
 
 @keyframes logo-spin {
   from {
