@@ -25,4 +25,5 @@ export const translations: TranslationMap = {
     no: "Ingen måltider lagt til ennå.",
     en: "No meals added yet.",
   },
+  resetPlan: { no: "Tøm ukesplan", en: "Clear weekly plan" },
 };

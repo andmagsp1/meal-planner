@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   addMealToPlan,
+  clearAllMeals,
   getWeeklyPlan,
   removeMealFromPlan,
 } from "../api/weeklyPlan.ts";
@@ -17,12 +18,20 @@ export function useWeeklyPlan() {
 
   const addMeal = useMutation({
     mutationFn: (recipeId: string) => addMealToPlan(PLAN_ID, recipeId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
   });
 
   const removeMeal = useMutation({
     mutationFn: (mealId: string) => removeMealFromPlan(PLAN_ID, mealId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+  });
+
+  const clearPlan = useMutation({
+    mutationFn: () => clearAllMeals(PLAN_ID),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
   });
 
   const isInPlan = (recipeId: string): boolean =>
@@ -42,5 +51,5 @@ export function useWeeklyPlan() {
     }
   };
 
-  return { plan, isInPlan, toggleMeal };
+  return { plan, isInPlan, toggleMeal, clearPlan: () => clearPlan.mutate() };
 }

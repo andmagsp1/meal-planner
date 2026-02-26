@@ -85,6 +85,17 @@ app.put("/api/weekly-plans/:planId/meals/:mealId", (req, res) => {
   res.json(meal);
 });
 
+// Clear all meals from weekly plan
+app.delete("/api/weekly-plans/:planId/meals", (req, res) => {
+  const plan = weeklyPlans.find((p) => p.id === req.params.planId);
+  if (!plan) {
+    return res.status(404).json({ message: "Weekly plan not found" });
+  }
+
+  plan.meals = [];
+  res.status(204).send();
+});
+
 // Delete a meal from weekly plan
 app.delete("/api/weekly-plans/:planId/meals/:mealId", (req, res) => {
   const plan = weeklyPlans.find((p) => p.id === req.params.planId);

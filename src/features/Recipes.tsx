@@ -1,3 +1,4 @@
+import { TertiaryButton } from "@sb1/ffe-buttons-react";
 import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading1, Heading3, Heading4, Paragraph } from "@sb1/ffe-core-react";
 import { Checkbox, Input, InputGroup } from "@sb1/ffe-form-react";
@@ -11,7 +12,7 @@ import { useLanguage, useTranslation } from "../i18n/LanguageContext.tsx";
 export function Recipes() {
   const { lang } = useLanguage();
   const { t } = useTranslation();
-  const { plan, isInPlan, toggleMeal } = useWeeklyPlan();
+  const { plan, isInPlan, toggleMeal, clearPlan } = useWeeklyPlan();
   const [search, setSearch] = useState("");
 
   const { data, isError, isLoading } = useQuery({
@@ -101,16 +102,34 @@ export function Recipes() {
       </div>
       <div
         style={{
-          width: 280,
+          width: 300,
           flexShrink: 0,
           position: "sticky",
           top: 16,
         }}
       >
-        <CardBase style={{ background: "#e5f0f5", minHeight: "200px" }}>
-          <Heading4>{t("weeklyPlan")}</Heading4>
+        <CardBase style={{ background: "#e5f0f5", minHeight: "340px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Heading4 style={{ marginBottom: 0 }}>{t("weeklyPlan")}</Heading4>
+            {plannedRecipes && plannedRecipes.length > 0 && (
+              <TertiaryButton
+                onClick={clearPlan}
+                style={{ position: "relative", top: "-2px" }}
+              >
+                {t("resetPlan")}
+              </TertiaryButton>
+            )}
+          </div>
           {!plannedRecipes || plannedRecipes.length === 0 ? (
-            <Paragraph>{t("noMealsInPlan")}</Paragraph>
+            <Paragraph style={{ marginTop: "1rem" }}>
+              {t("noMealsInPlan")}
+            </Paragraph>
           ) : (
             <ul style={{ padding: "8px", margin: 0 }}>
               {plannedRecipes.map((recipe) => (

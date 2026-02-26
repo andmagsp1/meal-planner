@@ -26,3 +26,9 @@ export async function removeMealFromPlan(
     method: "DELETE",
   });
 }
+
+export async function clearAllMeals(planId: string): Promise<void> {
+  await fetch(`${BASE_URL}/${planId}/meals`, {
+    method: "DELETE",
+  });
+}
