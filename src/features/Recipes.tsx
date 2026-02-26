@@ -21,7 +21,7 @@ export function Recipes() {
   return (
     <div>
       <h2>Meals</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxWidth: "800px" }}>
         {data?.map((recipe) => (
           <Link
             key={recipe.id}
@@ -29,7 +29,7 @@ export function Recipes() {
             params={{ recipeId: recipe.id }}
             style={{ textDecoration: "none", color: "inherit" }}
           >
-            <CardBase style={{ background: "#eaeaf6" }}>
+            <CardBase style={{ background: "#eaeaf6", width: "100%" }}>
               <Heading3>{recipe.name}</Heading3>
               <Paragraph>
                 {recipe.description.length > 50

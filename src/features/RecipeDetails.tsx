@@ -1,5 +1,4 @@
 import { BackButton } from "@sb1/ffe-buttons-react";
-import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading2, Heading3, Paragraph } from "@sb1/ffe-core-react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
