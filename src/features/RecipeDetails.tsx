@@ -3,24 +3,28 @@ import { Heading2, Heading3, Paragraph } from "@sb1/ffe-core-react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import type { Recipe } from "../../server/types.ts";
+import { useLanguage, useTranslation } from "../i18n/LanguageContext.tsx";
 
 export function RecipeDetails({ recipeId }: { recipeId: string }) {
+  const { lang } = useLanguage();
+  const { t } = useTranslation();
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["recipe", recipeId],
+    queryKey: ["recipe", recipeId, lang],
     queryFn: async (): Promise<Recipe> => {
       const response = await fetch(
-        `http://localhost:3001/api/recipes/${recipeId}`,
+        `http://localhost:3001/api/recipes/${recipeId}?lang=${lang}`,
       );
       return await response.json();
     },
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t("loading")}</div>;
   }
 
   if (isError || !data) {
-    return <div>Error loading recipe.</div>;
+    return <div>{t("errorLoadingRecipe")}</div>;
   }
 
   return (
@@ -34,7 +38,7 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
     >
       <div style={{ position: "absolute", left: "-120px", top: "-40px" }}>
         <BackButton as={Link} to="/">
-          Back
+          {t("back")}
         </BackButton>
       </div>
       <Heading2>{data.name}</Heading2>
@@ -49,7 +53,7 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
         }}
       >
         <div style={{ flex: 1 }}>
-          <Heading3>Ingredients</Heading3>
+          <Heading3>{t("ingredients")}</Heading3>
           <ul>
             {data.ingredients.map((ingredient) => (
               <li key={ingredient.id}>
@@ -66,7 +70,7 @@ export function RecipeDetails({ recipeId }: { recipeId: string }) {
         />
       </div>
 
-      <Heading3>Steps</Heading3>
+      <Heading3>{t("steps")}</Heading3>
       <ol>
         {data.steps
           .split(/\d+\.\s*/)

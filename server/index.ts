@@ -1,5 +1,6 @@
 import cors from "cors";
 import express from "express";
+import { recipesEn } from "./data-en.js";
 import { recipes, shoppingLists, weeklyPlans } from "./data.js";
 import type { PlannedMeal, ShoppingItem } from "./types.js";
 
@@ -9,18 +10,24 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+function getRecipes(lang: string | undefined) {
+  return lang === "en" ? recipesEn : recipes;
+}
+
 // ============================================
 // RECIPES ENDPOINTS
 // ============================================
 
 // Get all recipes
-app.get("/api/recipes", (_req, res) => {
-  res.json(recipes);
+app.get("/api/recipes", (req, res) => {
+  res.json(getRecipes(req.query.lang as string | undefined));
 });
 
 // Get a single recipe
 app.get("/api/recipes/:id", (req, res) => {
-  const recipe = recipes.find((r) => r.id === req.params.id);
+  const recipe = getRecipes(req.query.lang as string | undefined).find(
+    (r) => r.id === req.params.id,
+  );
   if (!recipe) {
     return res.status(404).json({ message: "Recipe not found" });
   }

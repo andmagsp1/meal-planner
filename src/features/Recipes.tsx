@@ -3,24 +3,28 @@ import { Heading1, Heading3, Paragraph } from "@sb1/ffe-core-react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { getRecipes } from "../api/getRecipes.ts";
+import { useLanguage, useTranslation } from "../i18n/LanguageContext.tsx";
 
 export function Recipes() {
+  const { lang } = useLanguage();
+  const { t } = useTranslation();
+
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["recipes"],
-    queryFn: getRecipes,
+    queryKey: ["recipes", lang],
+    queryFn: () => getRecipes(lang),
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t("loading")}</div>;
   }
 
   if (isError) {
-    return <div>Error loading recipes.</div>;
+    return <div>{t("errorLoadingRecipes")}</div>;
   }
 
   return (
     <div>
-      <Heading1 lookLike={2}>Recipes</Heading1>
+      <Heading1 lookLike={2}>{t("recipes")}</Heading1>
       <div
         style={{
           display: "flex",
