@@ -2,6 +2,7 @@ import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading2, Paragraph } from "@sb1/ffe-core-react";
 import { Checkbox } from "@sb1/ffe-form-react";
 import { Link } from "@tanstack/react-router";
+import { formatDescription } from "./helpers/formatDescription.ts";
 import { useHandleMeal } from "./hooks/useHandleMeal.ts";
 import { usePlan } from "./hooks/usePlan.ts";
 import styles from "./recipesList.module.css";
@@ -36,11 +37,7 @@ export function RecipesList({ filteredList }: Props) {
               className={styles.RecipeLink}
             >
               <Heading2 lookLike={4}>{recipe.name}</Heading2>
-              <Paragraph>
-                {recipe.description.length > 50
-                  ? recipe.description.slice(0, 100) + "..."
-                  : recipe.description}
-              </Paragraph>
+              <Paragraph>{formatDescription(recipe.description)}</Paragraph>
             </Link>
             <Checkbox
               checked={isInPlan(recipe.id)}
