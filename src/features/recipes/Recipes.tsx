@@ -1,7 +1,7 @@
 import { TertiaryButton } from "@sb1/ffe-buttons-react";
 import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading1, Heading2, Paragraph } from "@sb1/ffe-core-react";
-import { Checkbox, Input, InputGroup } from "@sb1/ffe-form-react";
+import { Checkbox } from "@sb1/ffe-form-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import {
   removeMealFromPlan,
 } from "../../api/weeklyPlan.ts";
 import { useLanguage, useTranslation } from "../../i18n/LanguageContext.tsx";
+import { SearchRecipes } from "./searchRecipes/SearchRecipes.tsx";
 
 const PLAN_ID = "1";
 
@@ -93,11 +94,7 @@ export function Recipes() {
     <div style={{ display: "flex", gap: "64px", alignItems: "flex-start" }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <Heading1 lookLike={2}>{t("recipes")}</Heading1>
-        <div style={{ maxWidth: "800px", marginBottom: "16px" }}>
-          <InputGroup label={t("searchRecipes")}>
-            <Input value={search} onChange={(e) => setSearch(e.target.value)} />
-          </InputGroup>
-        </div>
+        <SearchRecipes search={search} setSearch={setSearch} />
         <div
           style={{
             display: "flex",
