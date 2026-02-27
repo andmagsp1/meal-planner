@@ -5,14 +5,14 @@ import { Checkbox, Input, InputGroup } from "@sb1/ffe-form-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { getRecipes } from "../api/getRecipes.ts";
+import { getRecipes } from "../../api/getRecipes.ts";
 import {
   addMealToPlan,
   clearAllMeals,
   getWeeklyPlan,
   removeMealFromPlan,
-} from "../api/weeklyPlan.ts";
-import { useLanguage, useTranslation } from "../i18n/LanguageContext.tsx";
+} from "../../api/weeklyPlan.ts";
+import { useLanguage, useTranslation } from "../../i18n/LanguageContext.tsx";
 
 const PLAN_ID = "1";
 
