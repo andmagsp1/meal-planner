@@ -1,42 +1,31 @@
 import { Heading1 } from "@sb1/ffe-core-react";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { getRecipes } from "../../api/getRecipes.ts";
-import { useLanguage, useTranslation } from "../../i18n/LanguageContext.tsx";
+import { useRecipes } from "./hooks/useRecipes.ts";
+import styles from "./recipes.module.css";
 import { RecipesList } from "./recipesList/RecipesList.tsx";
 import { SearchRecipes } from "./searchRecipes/SearchRecipes.tsx";
+import { useTexts } from "./texts.ts";
 import { WeeklyPlan } from "./weeklyPlan/WeeklyPlan.tsx";
 
 export function Recipes() {
-  const { lang } = useLanguage();
-  const { t } = useTranslation();
-  const [search, setSearch] = useState("");
-
-  const { data, isError, isLoading } = useQuery({
-    queryKey: ["recipes", lang],
-    queryFn: () => getRecipes(lang),
-  });
+  const texts = useTexts();
+  const { recipes, search, setSearch, isLoading, isError } = useRecipes();
 
   if (isLoading) {
-    return <div>{t("loading")}</div>;
+    return <div>{texts.loading}</div>;
   }
 
   if (isError) {
-    return <div>{t("errorLoadingRecipes")}</div>;
+    return <div>{texts.errorLoadingRecipes}</div>;
   }
 
-  const filtered = data?.filter((recipe) =>
-    recipe.name.toLowerCase().includes(search.toLowerCase()),
-  );
-
   return (
-    <div style={{ display: "flex", gap: "64px", alignItems: "flex-start" }}>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <Heading1 lookLike={2}>{t("recipes")}</Heading1>
+    <div className={styles.RecipesContainer}>
+      <div className={styles.RecipesListContainer}>
+        <Heading1 lookLike={2}>{texts.recipes}</Heading1>
         <SearchRecipes search={search} setSearch={setSearch} />
-        <RecipesList filteredList={filtered} />
+        <RecipesList filteredList={recipes} />
       </div>
-      <WeeklyPlan recipes={data} />
+      <WeeklyPlan />
     </div>
   );
 }
