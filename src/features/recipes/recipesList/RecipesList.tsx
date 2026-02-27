@@ -54,6 +54,10 @@ export function RecipesList({ filteredList }: Props) {
     }
   };
 
+  if (filteredList?.length === 0) {
+    return <Paragraph>{t("noResults")}</Paragraph>;
+  }
+
   return (
     <div
       style={{
@@ -63,7 +67,6 @@ export function RecipesList({ filteredList }: Props) {
         maxWidth: "800px",
       }}
     >
-      {filteredList?.length === 0 && <Paragraph>{t("noResults")}</Paragraph>}
       {filteredList?.map((recipe) => (
         <CardBase
           key={recipe.id}
