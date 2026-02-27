@@ -1,9 +1,8 @@
 import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading2, Paragraph } from "@sb1/ffe-core-react";
 import { Checkbox } from "@sb1/ffe-form-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { addMealToPlan, removeMealFromPlan } from "../../../api/weeklyPlan.ts";
+import { useHandleMeal } from "./hooks/useHandleMeal.ts";
 import { usePlan } from "./hooks/usePlan.ts";
 import styles from "./recipesList.module.css";
 import { useTexts } from "./texts";
@@ -12,38 +11,10 @@ interface Props {
   filteredList: { id: string; name: string; description: string }[] | undefined;
 }
 
-const PLAN_ID = "1";
-
 export function RecipesList({ filteredList }: Props) {
   const texts = useTexts();
-  const queryClient = useQueryClient();
-  const { plan, isInPlan } = usePlan();
-
-  const addMeal = useMutation({
-    mutationFn: (recipeId: string) => addMealToPlan(PLAN_ID, recipeId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
-  });
-
-  const removeMeal = useMutation({
-    mutationFn: (mealId: string) => removeMealFromPlan(PLAN_ID, mealId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
-  });
-
-  const getMealId = (recipeId: string): string | undefined =>
-    plan?.meals.find((meal) => meal.recipeId === recipeId)?.id;
-
-  const toggleMeal = (recipeId: string) => {
-    if (isInPlan(recipeId)) {
-      const mealId = getMealId(recipeId);
-      if (mealId) {
-        removeMeal.mutate(mealId);
-      }
-    } else {
-      addMeal.mutate(recipeId);
-    }
-  };
+  const { isInPlan } = usePlan();
+  const { toggleMeal } = useHandleMeal();
 
   if (filteredList?.length === 0) {
     return <Paragraph>{texts.noResults}</Paragraph>;
