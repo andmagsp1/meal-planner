@@ -13,7 +13,9 @@ export function WeeklyPlanList({ plannedRecipes }: Props) {
 
   if (!plannedRecipes || plannedRecipes.length === 0) {
     return (
-      <Paragraph style={{ marginTop: "1rem" }}>{texts.noMealsInPlan}</Paragraph>
+      <Paragraph className={styles.NoMealsParagraph}>
+        {texts.noMealsInPlan}
+      </Paragraph>
     );
   }
 
