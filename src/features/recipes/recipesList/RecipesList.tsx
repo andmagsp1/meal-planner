@@ -8,7 +8,7 @@ import {
   getWeeklyPlan,
   removeMealFromPlan,
 } from "../../../api/weeklyPlan.ts";
-import { useTranslation } from "../../../i18n/LanguageContext.tsx";
+import { useTexts } from "./texts";
 import styles from "./recipesList.module.css";
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 const PLAN_ID = "1";
 
 export function RecipesList({ filteredList }: Props) {
-  const { t } = useTranslation();
+  const texts = useTexts();
   const queryClient = useQueryClient();
 
   const { data: plan } = useQuery({
@@ -56,7 +56,7 @@ export function RecipesList({ filteredList }: Props) {
   };
 
   if (filteredList?.length === 0) {
-    return <Paragraph>{t("noResults")}</Paragraph>;
+    return <Paragraph>{texts.noResults}</Paragraph>;
   }
 
   return (
@@ -85,7 +85,7 @@ export function RecipesList({ filteredList }: Props) {
               checked={isInPlan(recipe.id)}
               onChange={() => toggleMeal(recipe.id)}
             >
-              {t("addToWeeklyPlan")}
+              {texts.addToWeeklyPlan}
             </Checkbox>
           </div>
         </CardBase>
