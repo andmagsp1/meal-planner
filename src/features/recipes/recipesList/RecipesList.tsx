@@ -9,6 +9,7 @@ import {
   removeMealFromPlan,
 } from "../../../api/weeklyPlan.ts";
 import { useTranslation } from "../../../i18n/LanguageContext.tsx";
+import styles from "./recipesList.module.css";
 
 interface Props {
   filteredList: { id: string; name: string; description: string }[] | undefined;
@@ -59,38 +60,19 @@ export function RecipesList({ filteredList }: Props) {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-        maxWidth: "800px",
-      }}
-    >
+    <div className={styles.RecipesListContainer}>
       {filteredList?.map((recipe) => (
         <CardBase
           key={recipe.id}
-          style={{
-            background: "#eaeaf6",
-            width: "100%",
-            border: isInPlan(recipe.id) ? "2px solid #073f83" : undefined,
-          }}
+          className={
+            isInPlan(recipe.id) ? styles.RecipeCardBordered : styles.RecipeCard
+          }
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-            }}
-          >
+          <div className={styles.RecipeCardContent}>
             <Link
               to="/recipe/$recipeId"
               params={{ recipeId: recipe.id }}
-              style={{
-                flex: 1,
-                textDecoration: "none",
-                color: "inherit",
-              }}
+              className={styles.RecipeLink}
             >
               <Heading2 lookLike={4}>{recipe.name}</Heading2>
               <Paragraph>
