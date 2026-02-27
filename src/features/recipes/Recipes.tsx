@@ -1,18 +1,13 @@
 import { TertiaryButton } from "@sb1/ffe-buttons-react";
 import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading1, Heading2, Paragraph } from "@sb1/ffe-core-react";
-import { Checkbox } from "@sb1/ffe-form-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { getRecipes } from "../../api/getRecipes.ts";
-import {
-  addMealToPlan,
-  clearAllMeals,
-  getWeeklyPlan,
-  removeMealFromPlan,
-} from "../../api/weeklyPlan.ts";
+import { clearAllMeals, getWeeklyPlan } from "../../api/weeklyPlan.ts";
 import { useLanguage, useTranslation } from "../../i18n/LanguageContext.tsx";
+import { RecipesList } from "./recipesList/RecipesList.tsx";
 import { SearchRecipes } from "./searchRecipes/SearchRecipes.tsx";
 
 const PLAN_ID = "1";
@@ -29,40 +24,11 @@ export function Recipes() {
     queryFn: () => getWeeklyPlan(PLAN_ID),
   });
 
-  const addMeal = useMutation({
-    mutationFn: (recipeId: string) => addMealToPlan(PLAN_ID, recipeId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
-  });
-
-  const removeMeal = useMutation({
-    mutationFn: (mealId: string) => removeMealFromPlan(PLAN_ID, mealId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
-  });
-
   const clearPlanMutation = useMutation({
     mutationFn: () => clearAllMeals(PLAN_ID),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
   });
-
-  const isInPlan = (recipeId: string): boolean =>
-    plan?.meals.some((meal) => meal.recipeId === recipeId) ?? false;
-
-  const getMealId = (recipeId: string): string | undefined =>
-    plan?.meals.find((meal) => meal.recipeId === recipeId)?.id;
-
-  const toggleMeal = (recipeId: string) => {
-    if (isInPlan(recipeId)) {
-      const mealId = getMealId(recipeId);
-      if (mealId) {
-        removeMeal.mutate(mealId);
-      }
-    } else {
-      addMeal.mutate(recipeId);
-    }
-  };
 
   const clearPlan = () => clearPlanMutation.mutate();
 
@@ -95,57 +61,7 @@ export function Recipes() {
       <div style={{ flex: 1, minWidth: 0 }}>
         <Heading1 lookLike={2}>{t("recipes")}</Heading1>
         <SearchRecipes search={search} setSearch={setSearch} />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
-            maxWidth: "800px",
-          }}
-        >
-          {filtered?.length === 0 && <Paragraph>{t("noResults")}</Paragraph>}
-          {filtered?.map((recipe) => (
-            <CardBase
-              key={recipe.id}
-              style={{
-                background: "#eaeaf6",
-                width: "100%",
-                border: isInPlan(recipe.id) ? "2px solid #073f83" : undefined,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "16px",
-                }}
-              >
-                <Link
-                  to="/recipe/$recipeId"
-                  params={{ recipeId: recipe.id }}
-                  style={{
-                    flex: 1,
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                >
-                  <Heading2 lookLike={4}>{recipe.name}</Heading2>
-                  <Paragraph>
-                    {recipe.description.length > 50
-                      ? recipe.description.slice(0, 100) + "..."
-                      : recipe.description}
-                  </Paragraph>
-                </Link>
-                <Checkbox
-                  checked={isInPlan(recipe.id)}
-                  onChange={() => toggleMeal(recipe.id)}
-                >
-                  {t("addToWeeklyPlan")}
-                </Checkbox>
-              </div>
-            </CardBase>
-          ))}
-        </div>
+        <RecipesList filteredList={filtered} />
       </div>
       <div
         style={{
