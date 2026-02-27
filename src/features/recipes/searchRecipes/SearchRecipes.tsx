@@ -1,6 +1,6 @@
 import { Input, InputGroup } from "@sb1/ffe-form-react";
-import { useTranslation } from "../../../i18n/LanguageContext.tsx";
 import styles from "./searchRecipes.module.css";
+import { useTexts } from "./texts";
 
 interface Props {
   search: string;
@@ -8,11 +8,11 @@ interface Props {
 }
 
 export function SearchRecipes({ search, setSearch }: Props) {
-  const { t } = useTranslation();
+  const texts = useTexts();
 
   return (
     <div className={styles.SearchRecipesContainer}>
-      <InputGroup label={t("searchRecipes")}>
+      <InputGroup label={texts.searchLabel}>
         <Input value={search} onChange={(e) => setSearch(e.target.value)} />
       </InputGroup>
     </div>
