@@ -1,15 +1,12 @@
 import { CardBase } from "@sb1/ffe-cards-react";
 import { Heading2, Paragraph } from "@sb1/ffe-core-react";
 import { Checkbox } from "@sb1/ffe-form-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import {
-  addMealToPlan,
-  getWeeklyPlan,
-  removeMealFromPlan,
-} from "../../../api/weeklyPlan.ts";
-import { useTexts } from "./texts";
+import { addMealToPlan, removeMealFromPlan } from "../../../api/weeklyPlan.ts";
+import { usePlan } from "./hooks/usePlan.ts";
 import styles from "./recipesList.module.css";
+import { useTexts } from "./texts";
 
 interface Props {
   filteredList: { id: string; name: string; description: string }[] | undefined;
@@ -20,14 +17,7 @@ const PLAN_ID = "1";
 export function RecipesList({ filteredList }: Props) {
   const texts = useTexts();
   const queryClient = useQueryClient();
-
-  const { data: plan } = useQuery({
-    queryKey: ["weeklyPlan"],
-    queryFn: () => getWeeklyPlan(PLAN_ID),
-  });
-
-  const isInPlan = (recipeId: string): boolean =>
-    plan?.meals.some((meal) => meal.recipeId === recipeId) ?? false;
+  const { plan, isInPlan } = usePlan();
 
   const addMeal = useMutation({
     mutationFn: (recipeId: string) => addMealToPlan(PLAN_ID, recipeId),
