@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getWeeklyPlan } from "../../../../api/weeklyPlan.ts";
+import { getWeeklyPlan } from "../../api/weeklyPlan.ts";
 
 const PLAN_ID = "1";
 

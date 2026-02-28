@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { Recipe } from "../../../../../server/types.ts";
 import { getRecipes } from "../../../../api/getRecipes.ts";
 import { useLanguage } from "../../../../i18n/LanguageContext.tsx";
-import { usePlan } from "../../recipesList/hooks/usePlan.ts";
+import { usePlan } from "../../../hooks/usePlan.ts";
 
 export function usePlannedRecipes() {
   const { plan } = usePlan();

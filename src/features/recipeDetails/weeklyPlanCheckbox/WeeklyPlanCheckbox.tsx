@@ -1,6 +1,6 @@
 import { Checkbox } from "@sb1/ffe-form-react";
-import { useHandleMeal } from "../../recipes/recipesList/hooks/useHandleMeal.ts";
-import { usePlan } from "../../recipes/recipesList/hooks/usePlan.ts";
+import { useHandleMeal } from "../../hooks/useHandleMeal.ts";
+import { usePlan } from "../../hooks/usePlan.ts";
 import styles from "./weeklyPlanCheckbox.module.css";
 import { useTexts } from "./texts.ts";
 

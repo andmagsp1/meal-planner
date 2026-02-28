@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   addMealToPlan,
   removeMealFromPlan,
-} from "../../../../api/weeklyPlan.ts";
+} from "../../api/weeklyPlan.ts";
 import { usePlan } from "./usePlan.ts";
 
 const PLAN_ID = "1";

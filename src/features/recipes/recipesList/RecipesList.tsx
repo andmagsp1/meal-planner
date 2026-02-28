@@ -3,8 +3,8 @@ import { Heading2, Paragraph } from "@sb1/ffe-core-react";
 import { Checkbox } from "@sb1/ffe-form-react";
 import { Link } from "@tanstack/react-router";
 import { formatDescription } from "./helpers/formatDescription.ts";
-import { useHandleMeal } from "./hooks/useHandleMeal.ts";
-import { usePlan } from "./hooks/usePlan.ts";
+import { useHandleMeal } from "../../hooks/useHandleMeal.ts";
+import { usePlan } from "../../hooks/usePlan.ts";
 import styles from "./recipesList.module.css";
 import { useTexts } from "./texts";
 
