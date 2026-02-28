@@ -1,0 +1,18 @@
+.RecipeDetailsContainer {
+  position: relative;
+  max-width: 800px;
+  margin: 50px auto 0;
+}
+
+.IngredientsAndImage {
+  display: flex;
+  gap: var(--ffe-spacing-sm);
+  margin-bottom: var(--ffe-spacing-lg);
+  margin-top: var(--ffe-spacing-lg);
+}
+
+.RecipeImage {
+  width: 60%;
+  border-radius: 8px;
+  object-fit: cover;
+}
