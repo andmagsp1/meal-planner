@@ -21,4 +21,16 @@ describe("GroceryList", () => {
 
     expect(screen.getByText("Laster...")).toBeDefined();
   });
+
+  it("shows error message when loading fails", async () => {
+    vi.mocked(useGroceryList).mockReturnValue({
+      items: [],
+      isLoading: false,
+      isError: true,
+    });
+
+    await renderWithProviders(<GroceryList />);
+
+    expect(screen.getByText("Feil ved lasting av handleliste.")).toBeDefined();
+  });
 });
