@@ -39,4 +39,38 @@ describe("useGroceryList", () => {
 
     await waitFor(() => expect(result.current.items).toHaveLength(2));
   });
+
+  it("combines duplicate ingredients into a single item with total amount", async () => {
+    const shoppingListWithDuplicates: ShoppingList = {
+      id: "2",
+      weeklyPlanId: PLAN_ID,
+      items: [
+        {
+          id: "1",
+          ingredientName: "Chicken",
+          amount: "300 g",
+          checked: false,
+          recipeNames: ["Chicken Tikka Masala"],
+        },
+        {
+          id: "2",
+          ingredientName: "Chicken",
+          amount: "200 g",
+          checked: false,
+          recipeNames: ["Chicken Stir Fry"],
+        },
+      ],
+    };
+
+    vi.mocked(getShoppingList).mockResolvedValue(shoppingListWithDuplicates);
+
+    const { result } = renderHookWithProviders(() => useGroceryList());
+
+    await waitFor(() => {
+      expect(result.current.items).toHaveLength(1);
+      expect(result.current.items[0].amount).toBe("500 g");
+      expect(result.current.items[0].recipeNames).toContain("Chicken Tikka Masala");
+      expect(result.current.items[0].recipeNames).toContain("Chicken Stir Fry");
+    });
+  });
 });
