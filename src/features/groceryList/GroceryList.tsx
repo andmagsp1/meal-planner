@@ -9,5 +9,9 @@ export function GroceryList() {
     return <div>{texts.loading}</div>;
   }
 
+  if (isError) {
+    return <div>Feil ved lasting av handleliste.</div>;
+  }
+
   return <div></div>;
 }
