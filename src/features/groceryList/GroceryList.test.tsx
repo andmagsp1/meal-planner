@@ -1,5 +1,5 @@
-import { screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { fireEvent, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { renderWithProviders } from "../../test/renderWithProviders.tsx";
 import { GroceryList } from "./GroceryList.tsx";
 
@@ -7,11 +7,26 @@ vi.mock("./hooks/useGroceryList.ts", () => ({
   useGroceryList: vi.fn(),
 }));
 
+vi.mock("./hooks/useCheckGrocery.ts", () => ({
+  useCheckGrocery: vi.fn(),
+}));
+
+import { useCheckGrocery } from "./hooks/useCheckGrocery.ts";
 import { useGroceryList } from "./hooks/useGroceryList.ts";
 
+const mockCheckGrocery = vi.fn();
+
 describe("GroceryList", () => {
+  beforeEach(() => {
+    mockCheckGrocery.mockClear();
+    vi.mocked(useCheckGrocery).mockReturnValue({
+      checkGrocery: mockCheckGrocery,
+    });
+  });
+
   it("shows loading message while loading", async () => {
     vi.mocked(useGroceryList).mockReturnValue({
+      listId: undefined,
       items: [],
       isLoading: true,
       isError: false,
@@ -24,6 +39,7 @@ describe("GroceryList", () => {
 
   it("shows error message when loading fails", async () => {
     vi.mocked(useGroceryList).mockReturnValue({
+      listId: undefined,
       items: [],
       isLoading: false,
       isError: true,
@@ -36,6 +52,7 @@ describe("GroceryList", () => {
 
   it("shows empty list message when there are no items", async () => {
     vi.mocked(useGroceryList).mockReturnValue({
+      listId: "1",
       items: [],
       isLoading: false,
       isError: false,
@@ -48,6 +65,7 @@ describe("GroceryList", () => {
 
   it("renders each item with amount, name, and a checkbox", async () => {
     vi.mocked(useGroceryList).mockReturnValue({
+      listId: "1",
       items: [
         {
           id: "1",
@@ -77,5 +95,29 @@ describe("GroceryList", () => {
     expect(checkboxes).toHaveLength(2);
     expect(checkboxes[0].getAttribute("checked")).toBeNull();
     expect(checkboxes[1].getAttribute("checked")).not.toBeNull();
+  });
+
+  it("calls checkGrocery when a checkbox is clicked", async () => {
+    vi.mocked(useGroceryList).mockReturnValue({
+      listId: "1",
+      items: [
+        {
+          id: "item-1",
+          ingredientName: "Pasta",
+          amount: "200g",
+          checked: false,
+          recipeNames: ["Carbonara"],
+        },
+      ],
+      isLoading: false,
+      isError: false,
+    });
+
+    await renderWithProviders(<GroceryList />);
+
+    const checkbox = screen.getByRole("checkbox");
+    fireEvent.click(checkbox);
+
+    expect(mockCheckGrocery).toHaveBeenCalledWith("item-1", true);
   });
 });

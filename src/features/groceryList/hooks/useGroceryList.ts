@@ -49,6 +49,7 @@ export function useGroceryList() {
   const combinedItems = combineItems(items);
 
   return {
+    listId: data?.id,
     items: combinedItems,
     isLoading,
     isError,
