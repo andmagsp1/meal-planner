@@ -1,14 +1,19 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { renderHookWithProviders } from "../../../test/renderHookWithProviders.tsx";
 import { renderWithProviders } from "../../../test/renderWithProviders.tsx";
 import { Ingredients } from "./Ingredients.tsx";
+import { useTexts } from "./texts.ts";
 
 describe("Ingredients", () => {
+  const { result } = renderHookWithProviders(() => useTexts());
+  const texts = result.current;
+
   it("renders heading 'Ingredienser'", async () => {
     await renderWithProviders(<Ingredients ingredients={[]} />);
 
     expect(
-      screen.getByRole("heading", { name: "Ingredienser" }),
+      screen.getByRole("heading", { name: texts.ingredients }),
     ).toBeDefined();
   });
 

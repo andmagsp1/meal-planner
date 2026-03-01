@@ -1,7 +1,9 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { renderHookWithProviders } from "../../../../test/renderHookWithProviders.tsx";
 import { renderWithProviders } from "../../../../test/renderWithProviders.tsx";
 import { ResetPlanButton } from "./ResetPlanButton.tsx";
+import { useTexts } from "./texts.ts";
 
 vi.mock("./hooks/useClearPlan.ts", () => ({
   useClearPlan: vi.fn(() => ({ clearPlan: vi.fn() })),
@@ -17,6 +19,9 @@ const makeRecipe = (id: string, name: string) => ({
 });
 
 describe("ResetPlanButton", () => {
+  const { result } = renderHookWithProviders(() => useTexts());
+  const texts = result.current;
+
   it("renders nothing when prop is undefined", async () => {
     const { container } = await renderWithProviders(
       <ResetPlanButton plannedRecipes={undefined} />,
@@ -39,7 +44,7 @@ describe("ResetPlanButton", () => {
     );
 
     expect(
-      screen.getByRole("button", { name: "Tøm ukesplan" }),
+      screen.getByRole("button", { name: texts.resetPlan }),
     ).toBeDefined();
   });
 });

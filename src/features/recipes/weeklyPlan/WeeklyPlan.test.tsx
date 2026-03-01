@@ -1,7 +1,9 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { renderHookWithProviders } from "../../../test/renderHookWithProviders.tsx";
 import { renderWithProviders } from "../../../test/renderWithProviders.tsx";
 import { WeeklyPlan } from "./WeeklyPlan.tsx";
+import { useTexts } from "./texts.ts";
 
 vi.mock("./hooks/usePlannedRecipes.ts", () => ({
   usePlannedRecipes: vi.fn(),
@@ -23,13 +25,16 @@ const makeRecipe = (id: string, name: string) => ({
 });
 
 describe("WeeklyPlan", () => {
+  const { result } = renderHookWithProviders(() => useTexts());
+  const texts = result.current;
+
   it("renders heading 'Ukesplan'", async () => {
     vi.mocked(usePlannedRecipes).mockReturnValue([]);
 
     await renderWithProviders(<WeeklyPlan />);
 
     expect(
-      screen.getByRole("heading", { name: "Ukesplan" }),
+      screen.getByRole("heading", { name: texts.weeklyPlan }),
     ).toBeDefined();
   });
 

@@ -1,7 +1,9 @@
 import { fireEvent, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { renderHookWithProviders } from "../../test/renderHookWithProviders.tsx";
 import { renderWithProviders } from "../../test/renderWithProviders.tsx";
 import { GroceryList } from "./GroceryList.tsx";
+import { useTexts } from "./texts.ts";
 
 vi.mock("./hooks/useGroceryList.ts", () => ({
   useGroceryList: vi.fn(),
@@ -17,6 +19,9 @@ import { useGroceryList } from "./hooks/useGroceryList.ts";
 const mockCheckGrocery = vi.fn();
 
 describe("GroceryList", () => {
+  const { result } = renderHookWithProviders(() => useTexts());
+  const texts = result.current;
+
   beforeEach(() => {
     mockCheckGrocery.mockClear();
     vi.mocked(useCheckGrocery).mockReturnValue({
@@ -34,7 +39,7 @@ describe("GroceryList", () => {
 
     await renderWithProviders(<GroceryList />);
 
-    expect(screen.getByText("Laster...")).toBeDefined();
+    expect(screen.getByText(texts.loading)).toBeDefined();
   });
 
   it("shows error message when loading fails", async () => {
@@ -47,7 +52,7 @@ describe("GroceryList", () => {
 
     await renderWithProviders(<GroceryList />);
 
-    expect(screen.getByText("Feil ved lasting av handleliste.")).toBeDefined();
+    expect(screen.getByText(texts.errorLoadingGroceryList)).toBeDefined();
   });
 
   it("shows empty list message when there are no items", async () => {
@@ -60,7 +65,7 @@ describe("GroceryList", () => {
 
     await renderWithProviders(<GroceryList />);
 
-    expect(screen.getByText("Handlelisten er tom.")).toBeDefined();
+    expect(screen.getByText(texts.emptyGroceryList)).toBeDefined();
   });
 
   it("renders each item with amount, name, and a checkbox", async () => {

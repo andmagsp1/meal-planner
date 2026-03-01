@@ -1,7 +1,9 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { renderHookWithProviders } from "../../../../test/renderHookWithProviders.tsx";
 import { renderWithProviders } from "../../../../test/renderWithProviders.tsx";
 import { WeeklyPlanList } from "./WeeklyPlanList.tsx";
+import { useTexts } from "./texts.ts";
 
 const makeRecipe = (id: string, name: string) => ({
   id,
@@ -13,18 +15,21 @@ const makeRecipe = (id: string, name: string) => ({
 });
 
 describe("WeeklyPlanList", () => {
+  const { result } = renderHookWithProviders(() => useTexts());
+  const texts = result.current;
+
   it("shows empty message when prop is undefined", async () => {
     await renderWithProviders(
       <WeeklyPlanList plannedRecipes={undefined} />,
     );
 
-    expect(screen.getByText("Ingen måltider lagt til ennå.")).toBeDefined();
+    expect(screen.getByText(texts.noMealsInPlan)).toBeDefined();
   });
 
   it("shows empty message when list is empty", async () => {
     await renderWithProviders(<WeeklyPlanList plannedRecipes={[]} />);
 
-    expect(screen.getByText("Ingen måltider lagt til ennå.")).toBeDefined();
+    expect(screen.getByText(texts.noMealsInPlan)).toBeDefined();
   });
 
   it("shows recipe names as links when list is populated", async () => {

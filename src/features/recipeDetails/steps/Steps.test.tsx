@@ -1,14 +1,19 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { renderHookWithProviders } from "../../../test/renderHookWithProviders.tsx";
 import { renderWithProviders } from "../../../test/renderWithProviders.tsx";
 import { Steps } from "./Steps.tsx";
+import { useTexts } from "./texts.ts";
 
 describe("Steps", () => {
+  const { result } = renderHookWithProviders(() => useTexts());
+  const texts = result.current;
+
   it("renders heading 'Fremgangsmåte'", async () => {
     await renderWithProviders(<Steps steps="Step one" />);
 
     expect(
-      screen.getByRole("heading", { name: "Fremgangsmåte" }),
+      screen.getByRole("heading", { name: texts.steps }),
     ).toBeDefined();
   });
 

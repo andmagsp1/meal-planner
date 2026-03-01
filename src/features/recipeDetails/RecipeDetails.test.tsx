@@ -1,7 +1,9 @@
 import { screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { renderHookWithProviders } from "../../test/renderHookWithProviders.tsx";
 import { renderWithProviders } from "../../test/renderWithProviders.tsx";
 import { RecipeDetails } from "./RecipeDetails.tsx";
+import { useTexts } from "./texts.ts";
 
 vi.mock("./hooks/useRecipe.ts", () => ({
   useRecipe: vi.fn(),
@@ -10,6 +12,9 @@ vi.mock("./hooks/useRecipe.ts", () => ({
 import { useRecipe } from "./hooks/useRecipe.ts";
 
 describe("RecipeDetails", () => {
+  const { result } = renderHookWithProviders(() => useTexts());
+  const texts = result.current;
+
   it("shows error message when loading fails", async () => {
     vi.mocked(useRecipe).mockReturnValue({
       data: undefined,
@@ -19,7 +24,7 @@ describe("RecipeDetails", () => {
 
     await renderWithProviders(<RecipeDetails recipeId="1" />);
 
-    expect(screen.getByText("Feil ved lasting av oppskrift.")).toBeDefined();
+    expect(screen.getByText(texts.errorLoadingRecipe)).toBeDefined();
   });
 
   it("shows loading message while loading", async () => {
@@ -31,7 +36,7 @@ describe("RecipeDetails", () => {
 
     await renderWithProviders(<RecipeDetails recipeId="1" />);
 
-    expect(screen.getByText("Laster...")).toBeDefined();
+    expect(screen.getByText(texts.loading)).toBeDefined();
   });
 
   it("shows recipe name when loaded successfully", async () => {
