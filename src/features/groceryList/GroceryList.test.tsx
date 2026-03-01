@@ -34,6 +34,18 @@ describe("GroceryList", () => {
     expect(screen.getByText("Feil ved lasting av handleliste.")).toBeDefined();
   });
 
+  it("shows empty list message when there are no items", async () => {
+    vi.mocked(useGroceryList).mockReturnValue({
+      items: [],
+      isLoading: false,
+      isError: false,
+    });
+
+    await renderWithProviders(<GroceryList />);
+
+    expect(screen.getByText("Handlelisten er tom.")).toBeDefined();
+  });
+
   it("renders each item with amount, name, and a checkbox", async () => {
     vi.mocked(useGroceryList).mockReturnValue({
       items: [

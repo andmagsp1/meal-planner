@@ -15,6 +15,10 @@ export function GroceryList() {
     return <div>{texts.errorLoadingGroceryList}</div>;
   }
 
+  if (items.length === 0) {
+    return <div>{texts.emptyGroceryList}</div>;
+  }
+
   return (
     <div>
       <Heading1 lookLike={2}>{texts.groceryList}</Heading1>
