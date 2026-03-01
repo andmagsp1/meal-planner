@@ -6,3 +6,10 @@ export async function getShoppingList(weeklyPlanId: string): Promise<ShoppingLis
   const response = await fetch(`${BASE_URL}/${weeklyPlanId}`);
   return await response.json();
 }
+
+export async function generateShoppingList(weeklyPlanId: string): Promise<ShoppingList> {
+  const response = await fetch(`${BASE_URL}/generate/${weeklyPlanId}`, {
+    method: "POST",
+  });
+  return await response.json();
+}

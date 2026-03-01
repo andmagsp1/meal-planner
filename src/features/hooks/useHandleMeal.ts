@@ -3,6 +3,7 @@ import {
   addMealToPlan,
   removeMealFromPlan,
 } from "../../api/weeklyPlan.ts";
+import { generateShoppingList } from "../../api/shoppingList.ts";
 import { usePlan } from "./usePlan.ts";
 
 const PLAN_ID = "1";
@@ -13,14 +14,20 @@ export function useHandleMeal() {
 
   const addMeal = useMutation({
     mutationFn: (recipeId: string) => addMealToPlan(PLAN_ID, recipeId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+    onSuccess: async () => {
+      await generateShoppingList(PLAN_ID);
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] });
+      queryClient.invalidateQueries({ queryKey: ["shoppingList"] });
+    },
   });
 
   const removeMeal = useMutation({
     mutationFn: (mealId: string) => removeMealFromPlan(PLAN_ID, mealId),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] }),
+    onSuccess: async () => {
+      await generateShoppingList(PLAN_ID);
+      queryClient.invalidateQueries({ queryKey: ["weeklyPlan"] });
+      queryClient.invalidateQueries({ queryKey: ["shoppingList"] });
+    },
   });
 
   const getMealId = (recipeId: string): string | undefined =>
