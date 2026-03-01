@@ -2,6 +2,7 @@ import { Heading1 } from "@sb1/ffe-core-react";
 import { Checkbox } from "@sb1/ffe-form-react";
 import { useGroceryList } from "./hooks/useGroceryList.ts";
 import { useTexts } from "./texts.ts";
+import styles from "./groceryList.module.css";
 
 export function GroceryList() {
   const { items, isLoading, isError } = useGroceryList();
@@ -22,7 +23,7 @@ export function GroceryList() {
   return (
     <div>
       <Heading1 lookLike={2}>{texts.groceryList}</Heading1>
-      <ul>
+      <ul className={styles.list}>
         {items.map((item) => (
           <li key={item.id}>
             <Checkbox checked={item.checked} onChange={() => {}}>
