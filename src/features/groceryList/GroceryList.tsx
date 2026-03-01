@@ -17,7 +17,7 @@ export function GroceryList() {
 
   return (
     <div>
-      <Heading1 lookLike={2}>Grocery List</Heading1>
+      <Heading1 lookLike={2}>{texts.groceryList}</Heading1>
       <ul>
         {items.map((item) => (
           <li key={item.id}>
