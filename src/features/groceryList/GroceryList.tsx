@@ -10,7 +10,7 @@ export function GroceryList() {
   }
 
   if (isError) {
-    return <div>Feil ved lasting av handleliste.</div>;
+    return <div>{texts.errorLoadingGroceryList}</div>;
   }
 
   return <div></div>;
