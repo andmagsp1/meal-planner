@@ -1,0 +1,4 @@
+.SearchRecipesContainer {
+  max-width: 800px;
+  margin-bottom: var(--ffe-spacing-sm);
+}

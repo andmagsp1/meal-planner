@@ -1,0 +1,21 @@
+.WeeklyPlanContainer {
+  width: 300px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 16px;
+}
+
+.WeeklyPlanCard {
+  background: #e5f0f5;
+  min-height: 340px;
+}
+
+.WeeklyPlanHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.WeeklyPlanHeading {
+  margin-bottom: 0;
+}
